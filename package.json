@@ -1,0 +1,17 @@
+{
+  "name": "tinychat_server",
+  "version": "0.0001",
+  "description": "Server part of my app TinyChat",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "main": "server.js",
+  "keywords": [],
+  "author": "Imferal",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "socket.io": "^4.0.0"
+  }
+}

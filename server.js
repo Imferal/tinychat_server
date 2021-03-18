@@ -1,16 +1,21 @@
 const express = require('express')
+const cors = require("cors");
 const PORT = process.env.PORT ?? 9000
 const app = express()
 const http = require('http').Server(app)
-const io = require('socket.io')(http, {
-  cors: {
-    "Access-Control-Allow-Origin": "*",
-    methods: ["GET", "POST"]
-  }
-})
+const io = require('socket.io')(http)
+// const io = require('socket.io')(http, {
+//   cors: {
+//     "Access-Control-Allow-Origin": "*",
+//     methods: ["GET", "POST"]
+//   }
+// })
 
 // Подключаем JSON
 app.use(express.json())
+
+// Разрешаем все CORS-запросы
+app.use(cors())
 
 // Создаём коллекцию
 const chatData = new Map();

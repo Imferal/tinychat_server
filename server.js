@@ -20,20 +20,11 @@ app.use(cors())
 const chatData = new Map();
 
 // Обработка GET-запроса
-app.get('/rooms/:id', (req, res) => {
-  // Сохраняем название комнаты
-  const {id: roomId} = req.params;
-  // Если комната есть - возвращаем данные, если нет - пустые значения
-  const roomData = chatData.has(roomId)
-    ? {
-      users: [...chatData.get(roomId).get('users').values()],
-      messages: [...chatData.get(roomId).get('messages').values()],
-    }
-    : {users: [], messages: []}
-  res.json(roomData)
+app.get('/rooms/', (req, res) => {
+  res.json('GET-запрос прошёл успешно!')
 })
 
-// Обработка POST-запроса
+// Обработка POST-запроса при логине
 app.post('/rooms', (req, res) => {
   const {roomId} = req.body;
   // Если комнаты не было - создаём новую коллекцию
@@ -59,10 +50,11 @@ io.on('connection', (socket) => {
       // Получаем коллекцию юзеров и добавляем туда нового юзера
       .get('users').set(socket.id, userName)
     // Получаем имена values() (а не ключи - keys())
-    // всех пользователей из комнаты
+    // всех пользователей и сообщений из комнаты
     const users = [...chatData.get(roomId).get('users').values()];
+    const messages = [...chatData.get(roomId).get('messages').values()];
     // Оповещаем всех клиентов об изменении списка подключившихся
-    socket.to(roomId).emit('SET_USERS', users)
+    io.in(roomId).emit('JOINED', ({users, messages}))
   })
 
   // Пользователь отправляет сообщение

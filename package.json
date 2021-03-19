@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Server part of my app TinyChat",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js"
+    "start": "nodemon server.js"
   },
   "main": "server.js",
   "keywords": [],
